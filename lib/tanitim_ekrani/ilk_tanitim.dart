@@ -153,13 +153,13 @@ class Renkler {
   static const blackColors = Colors.black;
   static const cardBGColors = Color.fromRGBO(3, 4, 5, 0);
 
-  static const page1Colors = Colors.white;
-  static const page2Colors = Color.fromRGBO(247, 130, 35, 1);
-  static const page3Colors = Color.fromRGBO(115, 244, 132, 1);
+  static const page1Colors = Color.fromRGBO(129, 150, 229, 1.0);
+  static const page2Colors = Color.fromRGBO(243, 162, 104, 1.0);
+  static const page3Colors = Color.fromRGBO(147, 252, 161, 1.0);
 }
 
 class Images {
   static const String tanitimEkrani1 = 'asset/images/Adsız.png';
   static const String tanitimEkrani2 = 'asset/images/art.png';
-  static const String tanitimEkrani3 = 'asset/images/byc.jpg';
+  static const String tanitimEkrani3 = 'asset/images/byc.png';
 }
