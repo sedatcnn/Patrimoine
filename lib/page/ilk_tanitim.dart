@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
-import 'package:patrimonie/giris_kayit/giris.dart';
-import 'package:patrimonie/tanitim_ekrani/tanitim_widget.dart';
+import 'package:patrimonie/page/giris.dart';
+import 'package:patrimonie/model/widgets/tanitim_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
-
 
 class IlkTanitimEkrani extends StatefulWidget {
   const IlkTanitimEkrani({super.key});
@@ -13,11 +11,10 @@ class IlkTanitimEkrani extends StatefulWidget {
   State<IlkTanitimEkrani> createState() => _IlkTanitimEkraniState();
 }
 
-//deneme
 class _IlkTanitimEkraniState extends State<IlkTanitimEkrani> {
   int currentPage = 0;
-  late LiquidController controller; // LiquidController'ı tanımladık
- final List<TanitimWidget> pages = [
+  late LiquidController controller;
+  final List<TanitimWidget> pages = [
     TanitimWidget(
       model: TanitimModel(
         image: Images.tanitimEkrani1,
@@ -54,7 +51,6 @@ class _IlkTanitimEkraniState extends State<IlkTanitimEkrani> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Stack(
         alignment: Alignment.center,
@@ -109,8 +105,8 @@ class _IlkTanitimEkraniState extends State<IlkTanitimEkrani> {
             right: 20,
             child: TextButton(
               onPressed: () {
-                int nextPage = 2; 
-                controller.jumpToPage(page: nextPage); 
+                int nextPage = 2;
+                controller.jumpToPage(page: nextPage);
                 setState(() {
                   currentPage = nextPage;
                 });
@@ -125,7 +121,7 @@ class _IlkTanitimEkraniState extends State<IlkTanitimEkrani> {
             bottom: 25,
             child: AnimatedSmoothIndicator(
               activeIndex: currentPage,
-              count: pages.length, 
+              count: pages.length,
               effect: const WormEffect(
                 activeDotColor: Colors.orange,
                 dotHeight: 5.0,

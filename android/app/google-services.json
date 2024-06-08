@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1082351517973",
+    "project_id": "patrimonie-34d91",
+    "storage_bucket": "patrimonie-34d91.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1082351517973:android:0103f65cdc5a701830a91c",
+        "android_client_info": {
+          "package_name": "com.example.patrimonie"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-wDxl-hbtsR-aw7Ohui8xELbNg-A5F3w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

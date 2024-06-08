@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:patrimonie/giris_kayit/kayit.dart';
+import 'package:patrimonie/core/viewModel/login_viewModel.dart';
+import 'package:patrimonie/page/kayit.dart';
+import 'package:patrimonie/page/navbar/nav_controller.dart';
 
 class GirisEkrani extends StatefulWidget {
   const GirisEkrani({super.key});
@@ -18,10 +20,17 @@ class _GirisEkraniState extends State<GirisEkrani> {
   }
 }
 
-class Body extends StatelessWidget {
+class Body extends StatefulWidget {
   const Body({
     super.key,
   });
+
+  @override
+  State<Body> createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
+  UserLoginPageViewModel viewModel = UserLoginPageViewModel();
 
   @override
   Widget build(BuildContext context) {
@@ -57,39 +66,39 @@ class Body extends StatelessWidget {
               children: [
                 Image.asset(
                   "asset/images/logo.png",
-                  height: size.height * 0.35,
+                  height: size.height * 0.25,
                   width: size.width * 0.7,
                 ),
-                const RoundedInputField(
+                CustomTextField(
+                  controller: viewModel.emailController,
                   hintText: "E-Posta",
                   keyboardType: TextInputType.emailAddress,
                 ),
-                SifreInputField(
-                  onChanged: (value) {},
+                SizedBox(height: size.height * 0.02),
+                CustomTextField(
+                  controller: viewModel.passwordController,
+                  hintText: "Şifre",
+                  icon: FontAwesomeIcons.lock,
+                  keyboardType: TextInputType.visiblePassword,
+                  obscureText: true,
                 ),
                 SizedBox(
                   height: size.height * 0.02,
                 ),
-                GirisButton(size: size),
+                GirisButton(
+                  size: size,
+                  text: 'Giriş',
+                  press: () {
+                    MyBottomNavBar();
+                    viewModel.signInUser(context);
+                  },
+                ),
                 SizedBox(
                   height: size.height * 0.03,
                 ),
                 const HesapKontrol(),
                 SizedBox(
                   height: size.height * 0.03,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SocialMediaButton(
-                      icon: FontAwesomeIcons.facebookF,
-                      press: () {},
-                    ),
-                    SocialMediaButton(
-                      icon: FontAwesomeIcons.google,
-                      press: () {},
-                    ),
-                  ],
                 ),
               ],
             ),
@@ -170,9 +179,13 @@ class SocialMediaButton extends StatelessWidget {
 }
 
 class GirisButton extends StatelessWidget {
+  final String text;
+  final void Function() press;
   const GirisButton({
     super.key,
     required this.size,
+    required this.text,
+    required this.press,
   });
 
   final Size size;
@@ -180,70 +193,59 @@ class GirisButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
-      onPressed: () {},
+      onPressed: press,
       padding: const EdgeInsets.all(13),
       minWidth: size.width * 0.8,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(22)),
       color: const Color.fromRGBO(238, 196, 211, 0.8),
-      child: const Text("Giriş",
-          style: TextStyle(
+      child: Text(text,
+          style: const TextStyle(
               fontSize: 16, color: Color.fromARGB(204, 218, 91, 135))),
     );
   }
 }
 
-class SifreInputField extends StatelessWidget {
-  final ValueChanged onChanged;
-  const SifreInputField({
-    super.key,
-    required this.onChanged,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFieldContainer(
-        child: TextField(
-      obscureText: true,
-      onChanged: onChanged,
-      decoration: const InputDecoration(
-        hintText: "Şifre",
-        icon: Icon(
-          FontAwesomeIcons.lock,
-          color: Color.fromARGB(204, 218, 91, 135),
-        ),
-        suffixIcon: Icon(
-          Icons.visibility,
-          color: Color.fromARGB(204, 218, 91, 135),
-        ),
-        border: InputBorder.none,
-      ),
-    ));
-  }
-}
-
-class RoundedInputField extends StatelessWidget {
+class CustomTextField extends StatelessWidget {
   final String hintText;
   final IconData icon;
+  final TextEditingController controller;
   final TextInputType keyboardType;
-  const RoundedInputField({
+  final bool obscureText;
+
+  const CustomTextField({
     super.key,
     required this.hintText,
     this.icon = FontAwesomeIcons.solidUser,
     required this.keyboardType,
+    required this.controller,
+    this.obscureText = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFieldContainer(
       child: TextField(
+        controller: controller,
         decoration: InputDecoration(
-            icon: Icon(
-              icon,
-              color: const Color.fromARGB(204, 218, 91, 135),
-            ),
-            hintText: hintText,
-            border: InputBorder.none),
+          icon: Icon(
+            icon,
+            color: const Color.fromARGB(204, 218, 91, 135),
+          ),
+          hintText: hintText,
+          border: InputBorder.none,
+          suffixIcon: obscureText
+              ? IconButton(
+                  icon: const Icon(
+                    Icons.visibility,
+                    color: Color.fromARGB(204, 218, 91, 135),
+                  ),
+                  onPressed: () => controller.text =
+                      '', // Reset text on tap (toggle visibility)
+                )
+              : null,
+        ),
         keyboardType: keyboardType,
+        obscureText: obscureText, // Set obscureText based on the provided value
       ),
     );
   }
