@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:patrimonie/giris_kayit/giris.dart';
-import 'package:patrimonie/giris_kayit/verification_screen.dart';
+import 'package:patrimonie/core/viewModel/register_viewModel.dart';
+import 'package:patrimonie/page/giris.dart';
 
 class KayitEkrani extends StatefulWidget {
   const KayitEkrani({super.key});
@@ -19,10 +19,17 @@ class _KayitEkraniState extends State<KayitEkrani> {
   }
 }
 
-class Body extends StatelessWidget {
+class Body extends StatefulWidget {
   const Body({
     super.key,
   });
+
+  @override
+  State<Body> createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
+  UserRegisterPageViewModel viewModel = UserRegisterPageViewModel();
 
   @override
   Widget build(BuildContext context) {
@@ -62,27 +69,30 @@ class Body extends StatelessWidget {
                     height: size.height * 0.35,
                     width: size.width * 0.7,
                   ),
-                  const RoundedInputField(
+                  SizedBox(height: size.height * 0.02),
+                  CustomTextField(
+                    controller: viewModel.emailController,
                     hintText: "E-Posta",
                     keyboardType: TextInputType.emailAddress,
                   ),
-                  SifreInputField(
-                    onChanged: (value) {},
+                  SizedBox(height: size.height * 0.02),
+                  CustomTextField(
+                    controller: viewModel.passwordController,
+                    hintText: "Şifre",
+                    icon: FontAwesomeIcons.lock,
+                    keyboardType: TextInputType.visiblePassword,
+                    obscureText: true,
                   ),
                   SizedBox(
                     height: size.height * 0.02,
                   ),
                   KayitButton(
-                      size: size,
-                      text: "Kayıt Ol",
-                      press: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const VerificationCodeScreen()),
-                        );
-                      }),
+                    size: size,
+                    text: "Kayıt Ol",
+                    press: () {
+                      viewModel.signUpUser(context);
+                    },
+                  ),
                   SizedBox(
                     height: size.height * 0.03,
                   ),
@@ -96,20 +106,6 @@ class Body extends StatelessWidget {
                           }),
                         );
                       }),
-                  const Dividers(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SocialMediaButton(
-                        icon: FontAwesomeIcons.facebookF,
-                        press: () {},
-                      ),
-                      SocialMediaButton(
-                        icon: FontAwesomeIcons.google,
-                        press: () {},
-                      ),
-                    ],
-                  ),
                 ],
               ),
             ),
@@ -249,59 +245,47 @@ class KayitButton extends StatelessWidget {
   }
 }
 
-class SifreInputField extends StatelessWidget {
-  final ValueChanged onChanged;
-  const SifreInputField({
-    super.key,
-    required this.onChanged,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFieldContainer(
-      child: TextField(
-        obscureText: true,
-        onChanged: onChanged,
-        decoration: const InputDecoration(
-          hintText: "Şifre",
-          icon: Icon(
-            FontAwesomeIcons.lock,
-            color: Color.fromARGB(204, 218, 91, 135),
-          ),
-          suffixIcon: Icon(
-            Icons.visibility,
-            color: Color.fromARGB(204, 218, 91, 135),
-          ),
-          border: InputBorder.none,
-        ),
-      ),
-    );
-  }
-}
-
-class RoundedInputField extends StatelessWidget {
+class CustomTextField extends StatelessWidget {
   final String hintText;
   final IconData icon;
+  final TextEditingController controller;
   final TextInputType keyboardType;
-  const RoundedInputField({
+  final bool obscureText;
+
+  const CustomTextField({
     super.key,
     required this.hintText,
     this.icon = FontAwesomeIcons.solidUser,
     required this.keyboardType,
+    required this.controller,
+    this.obscureText = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFieldContainer(
       child: TextField(
+        controller: controller,
         decoration: InputDecoration(
-            icon: Icon(
-              icon,
-              color: const Color.fromARGB(204, 218, 91, 135),
-            ),
-            hintText: hintText,
-            border: InputBorder.none),
+          icon: Icon(
+            icon,
+            color: const Color.fromARGB(204, 218, 91, 135),
+          ),
+          hintText: hintText,
+          border: InputBorder.none,
+          suffixIcon: obscureText
+              ? IconButton(
+                  icon: const Icon(
+                    Icons.visibility,
+                    color: Color.fromARGB(204, 218, 91, 135),
+                  ),
+                  onPressed: () => controller.text =
+                      '', // Reset text on tap (toggle visibility)
+                )
+              : null,
+        ),
         keyboardType: keyboardType,
+        obscureText: obscureText, // Set obscureText based on the provided value
       ),
     );
   }
@@ -356,7 +340,7 @@ Widget makeInput({
           suffixIcon: suffixIcon,
         ),
       ),
-      SizedBox(
+      const SizedBox(
         height: 30,
       ),
     ],

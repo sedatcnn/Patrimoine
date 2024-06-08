@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:patrimonie/giris_kayit/kayit.dart';
+import 'package:patrimonie/page/kayit.dart';
 
 class VerificationCodeScreen extends StatefulWidget {
-  const VerificationCodeScreen({Key? key}) : super(key: key);
+  const VerificationCodeScreen({super.key});
   @override
   _VerificationCodeScreenState createState() => _VerificationCodeScreenState();
 }
@@ -13,7 +13,7 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Color.fromARGB(255, 255, 236, 243),
+      backgroundColor: const Color.fromARGB(255, 255, 236, 243),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 32),
@@ -112,11 +112,11 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                         onPressed: () {},
                         style: ButtonStyle(
                           foregroundColor:
-                              MaterialStateProperty.all<Color>(Colors.white),
-                          backgroundColor: MaterialStateProperty.all<Color>(
+                              WidgetStateProperty.all<Color>(Colors.white),
+                          backgroundColor: WidgetStateProperty.all<Color>(
                               const Color.fromARGB(204, 189, 132, 152)),
                           shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                              WidgetStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(24.0),
                             ),

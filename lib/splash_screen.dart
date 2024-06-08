@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:patrimonie/tanitim_ekrani/ilk_tanitim.dart';
+import 'package:patrimonie/page/giris.dart';
+import 'package:patrimonie/page/ilk_tanitim.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -18,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen>
 
     Future.delayed(const Duration(seconds: 2), () {
       Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const IlkTanitimEkrani()));
+          MaterialPageRoute(builder: (context) => const GirisEkrani()));
     });
   }
 
